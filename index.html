@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>蔡子锟 · 大连海事大学 信息技术学院 计算机类</title>
+  <meta name="description" content="蔡子锟的个人网站，大连海事大学信息技术学院2025级计算机类专业学生，分享技术与成长。">
+  <!-- 引入 Font Awesome 图标库（用于 GitHub 项目卡片图标） -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" 
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 平滑滚动 & 基础变量 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+      line-height: 1.5;
+      transition: background-color 0.25s ease, color 0.2s ease;
+    }
+
+    /* 主题变量 (亮色默认) */
+    :root {
+      --bg-body: #f8fafc;
+      --bg-surface: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-light: #e2e8f0;
+      --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      --accent: #1e3a8a;
+      --accent-hover: #1e40af;
+      --accent-soft: #eef2ff;
+      --tag-bg: #eef2ff;
+      --footer-bg: #f1f5f9;
+      --btn-text: white;
+      --icon-filter: none;
+    }
+
+    /* 深色主题 */
+    body.dark {
+      --bg-body: #0f172a;
+      --bg-surface: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-light: #334155;
+      --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      --accent: #60a5fa;
+      --accent-hover: #3b82f6;
+      --accent-soft: #1e293b;
+      --tag-bg: #334155;
+      --footer-bg: #0f172a;
+      --btn-text: #0f172a;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-primary);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* 导航栏 */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-light);
+      backdrop-filter: blur(8px);
+      background-color: rgba(var(--bg-surface-rgb, 255 255 255), 0.8);
+      transition: background-color 0.2s;
+    }
+    body.dark .header {
+      background-color: rgba(30, 41, 59, 0.85);
+    }
+    /* 支持背景半透明适配 */
+    .header {
+      background-color: color-mix(in srgb, var(--bg-surface) 85%, transparent);
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), #3b82f6);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    .theme-btn {
+      background: var(--accent-soft);
+      border: 1px solid var(--border-light);
+      border-radius: 60px;
+      width: 40px;
+      height: 40px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: var(--text-primary);
+    }
+    .theme-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: scale(0.96);
+    }
+
+    /* Hero 区域 / 个人卡片 */
+    .hero {
+      padding: 3rem 0 2rem 0;
+    }
+    .profile-card {
+      background: var(--bg-surface);
+      border-radius: 2rem;
+      padding: 2rem;
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-light);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .profile-info {
+      flex: 2;
+      min-width: 220px;
+    }
+    .tag {
+      font-size: 0.85rem;
+      background: var(--tag-bg);
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .profile-info h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 1rem;
+    }
+    .profile-list {
+      list-style: none;
+      margin: 1.2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .profile-list li {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    .profile-list strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--btn-text);
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+    }
+    .profile-image-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 140px;
+    }
+    .profile-image {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      background: var(--accent-soft);
+      box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s;
+    }
+    .profile-image:hover {
+      transform: scale(1.02);
+    }
+
+    /* 通用区块 */
+    .section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .section-alt {
+      background-color: color-mix(in srgb, var(--bg-body) 60%, var(--bg-surface));
+    }
+    body.dark .section-alt {
+      background-color: color-mix(in srgb, var(--bg-body) 85%, #000000 10%);
+    }
+    .section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      letter-spacing: -0.01em;
+      position: relative;
+      display: inline-block;
+    }
+    .section h2:after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      margin-top: 1rem;
+    }
+    .card {
+      background: var(--bg-surface);
+      border-radius: 1.5rem;
+      padding: 1.6rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow);
+      border-color: var(--accent);
+    }
+    .card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+    .card p {
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .contact-list {
+      list-style: none;
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      background: var(--bg-surface);
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid var(--border-light);
+    }
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+    .contact-list li::before {
+      content: "📌";
+      font-size: 1.2rem;
+    }
+    .contact-list li:first-child::before { content: "📧"; }
+    .contact-list li:nth-child(2)::before { content: "🐙"; }
+    .contact-list li:nth-child(3)::before { content: "💬"; }
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      background: var(--footer-bg);
+      border-top: 1px solid var(--border-light);
+      margin-top: 1rem;
+    }
+
+    /* GitHub 项目卡片样式（新增） */
+    .github-card {
+      background: var(--bg-surface);
+      border-radius: 1.5rem;
+      padding: 1.6rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .github-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-shadow);
+      border-color: var(--accent);
+    }
+    .github-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+    .github-card p {
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .github-card .language {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      color: white;
+      background: var(--accent);
+      margin-right: 0.5rem;
+    }
+    .github-card .stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .github-card .stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* 响应式 */
+    @media (max-width: 700px) {
+      .profile-card {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 1.8rem;
+      }
+      .profile-info {
+        text-align: center;
+      }
+      .subtitle {
+        border-left: none;
+        padding-left: 0;
+        text-align: center;
+      }
+      .section h2:after {
+        left: 25%;
+        width: 50%;
+      }
+      .nav-links {
+        gap: 1.2rem;
+      }
+      .container {
+        padding: 0 1.2rem;
+      }
+      .profile-image {
+        width: 130px;
+        height: 130px;
+      }
+    }
+    @media (max-width: 480px) {
+      .nav {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .logo {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="nav container">
+      <div class="logo">CZK · Portfolio</div>
+      <ul class="nav-links">
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#skills">技能栈</a></li>
+        <li><a href="#projects">GitHub作品</a></li> <!-- 新增导航链接 -->
+        <li><a href="#contact">联系</a></li>
+      </ul>
+      <button id="themeToggle" class="theme-btn" aria-label="切换主题">🌙</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero 个人卡片 -->
+    <section class="hero">
+      <div class="container">
+        <div class="profile-card">
+          <div class="profile-info">
+            <p class="tag">大连海事大学 · 信息技术学院 · 2025级</p>
+            <h1>蔡子锟</h1>
+            <p class="subtitle">
+              计算机类专业新生，热衷 Web 全栈与算法设计，用代码构建实用且有温度的数字作品。
+            </p>
+            <ul class="profile-list">
+              <li><strong>🏫 学校：</strong>大连海事大学 信息技术学院</li>
+              <li><strong>📘 专业方向：</strong>计算机类 (2025级)</li>
+              <li><strong>✉️ 邮箱：</strong>caizikun@dmu.edu.cn</li>
+            </ul>
+            <a class="btn" href="#contact">📬 联系我</a>
+          </div>
+          <div class="profile-image-wrap">
+            <!-- 动态 SVG 头像 (蔡子锟首字母 / 简洁风格) -->
+            <img class="profile-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231e3a8a'/%3E%3Ctext x='50' y='70' font-size='42' font-family='system-ui, sans-serif' font-weight='bold' text-anchor='middle' fill='white' dominant-baseline='middle'%3E蔡%3C/text%3E%3C/svg%3E"
+                 alt="蔡子锟头像">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2>关于我</h2>
+        <p style="margin-bottom: 1rem; font-size: 1.05rem; line-height: 1.6; color: var(--text-secondary);">
+          就读于大连海事大学信息技术学院计算机类专业。喜欢通过构建小而美的项目来巩固知识。
+          目前专注前端基础与 C/C++ 算法训练，享受从零到一解决问题的过程。我相信技术不仅要有严谨的逻辑，更应服务于真实需求。
+        </p>
+        <p style="color: var(--text-muted);">
+          课余时间活跃于技术社区，正在筹备个人开源项目，并持续提升英语技术文档阅读能力。希望能与志同道合的伙伴交流进步。
+        </p>
+      </div>
+    </section>
+
+    <!-- 技能栈 -->
+    <section id="skills" class="section section-alt">
+      <div class="container">
+        <h2>技能栈</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>🌐 前端开发</h3>
+            <p>HTML5 / CSS3 / JavaScript (ES6+)<br>响应式布局、Flex/Grid、现代UI组件思维<br>初涉 React 与 TailwindCSS</p>
+          </div>
+          <div class="card">
+            <h3>⚙️ 编程基础</h3>
+            <p>C / C++ (竞赛基础) · Python 数据分析<br>数据结构与算法、面向对象设计<br>LeetCode 与算法竞赛爱好者</p>
+          </div>
+          <div class="card">
+            <h3>🛠️ 工具与环境</h3>
+            <p>Git & GitHub · VS Code / Cursor<br>Linux 基础命令 (Ubuntu) · 调试技巧<br>Vite / 模块化开发</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GitHub 作品展示模块（新增） -->
+    <section id="projects" class="section section-alt">
+      <div class="container">
+        <h2>GitHub 作品</h2>
+        <div class="grid">
+          <!-- 动态生成项目卡片 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>联系我</h2>
+        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+          欢迎交流学习、项目合作或实习机会。期待与您碰撞出新的火花。
+        </p>
+        <ul class="contact-list">
+          <li>caizikun@dmu.edu.cn (学校邮箱) / caizikun@outlook.com</li>
+          <li><a href="https://github.com/Dillon677" target="_blank" style="color: var(--accent); text-decoration: none;">github.com/Dillon677</a> — 开源足迹</li>
+          <li>QQ: 3499389102@qq.com (添加请注明来意)</li>
+        </ul>
+        <p style="margin-top: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+          📍 中国 · 大连 ｜ 大连海事大学信息技术学院 2025级
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="currentYear">2026</span> 蔡子锟 · DMU · 保持好奇，持续迭代</p>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // 主题切换逻辑
+      const themeToggleBtn = document.getElementById('themeToggle');
+      const setTheme = (isDark) => {
+        if (isDark) {
+          document.body.classList.add('dark');
+          if (themeToggleBtn) themeToggleBtn.innerHTML = '☀️';
+        } else {
+          document.body.classList.remove('dark');
+          if (themeToggleBtn) themeToggleBtn.innerHTML = '🌙';
+        }
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      };
+      
+      // 读取保存的主题或系统偏好
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        setTheme(true);
+      } else if (savedTheme === 'light') {
+        setTheme(false);
+      } else {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(prefersDark);
+      }
+      
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const isDarkNow = document.body.classList.contains('dark');
+          setTheme(!isDarkNow);
+        });
+      }
+      
+      // 动态年份
+      const yearSpan = document.getElementById('currentYear');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+      
+      // 平滑滚动 + 导航链接偏移补偿 (固定header偏移量)
+      const navLinks = document.querySelectorAll('.nav-links a');
+      const headerHeight = document.querySelector('.header')?.offsetHeight || 70;
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - headerHeight - 16;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // 处理“联系我”按钮的平滑滚动
+      const contactBtn = document.querySelector('.btn[href="#contact"]');
+      if (contactBtn) {
+        contactBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const contactSection = document.getElementById('contact');
+          if (contactSection) {
+            const offsetTop = contactSection.getBoundingClientRect().top + window.scrollY - headerHeight - 12;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+          }
+        });
+      }
+      
+      // 确保任何内部锚点滚动都使用平滑补偿 (如果有其他哈希链接)
+      const allAnchorLinks = document.querySelectorAll('a[href^="#"]:not(.btn)');
+      allAnchorLinks.forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const rawHash = this.getAttribute('href');
+          if (rawHash === "#" || rawHash === "#/") return;
+          const targetId = rawHash.substring(1);
+          const targetElem = document.getElementById(targetId);
+          if (targetElem) {
+            e.preventDefault();
+            const yOffset = targetElem.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+            window.scrollTo({ top: yOffset, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ===== GitHub 作品模块脚本（新增）=====
+      async function fetchGitHubProjects() {
+        const username = "Dillon677"; // 替换为你的 GitHub 用户名（当前是你的用户名）
+        const url = `https://api.github.com/users/${username}/repos`;
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error("Network response was not ok");
+          const repos = await response.json();
+
+          // 过滤并排序仓库（仅保留前5个，按更新时间倒序，排除fork和无语言的仓库）
+          const filteredRepos = repos
+            .filter(repo => !repo.fork && repo.language) 
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+            .slice(0, 5); // 最多显示5个项目
+
+          const projectsContainer = document.querySelector('.section#projects .grid');
+
+          // 清空容器（防止重复加载）
+          projectsContainer.innerHTML = '';
+
+          filteredRepos.forEach(repo => {
+            const card = document.createElement('div');
+            card.className = 'card github-card'; // 复用card样式 + github-card扩展
+            
+            // 获取语言对应颜色（可扩展）
+            const languageColor = getColorForLanguage(repo.language) || '#666';
+
+            card.innerHTML = `
+              <h3>${repo.name}</h3>
+              <p>${repo.description || "暂无项目描述"}</p>
+              <div class="stats">
+                <span class="language" style="background: ${languageColor};">${repo.language}</span>
+                <span title="星标数"><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
+                <span title="分支数"><i class="fas fa-code-branch"></i> ${repo.forks_count}</span>
+                <span title="更新时间">${new Date(repo.updated_at).toLocaleDateString()}</span>
+              </div>
+              <a href="${repo.html_url}" target="_blank" class="btn" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">查看源码</a>
+            `;
+            
+            projectsContainer.appendChild(card);
+          });
+
+          // 如果没有符合条件的仓库，显示提示
+          if (filteredRepos.length === 0) {
+            projectsContainer.innerHTML = '<p class="card">暂无公开的 GitHub 项目，敬请期待...</p>';
+          }
+
+        } catch (error) {
+          console.error("加载 GitHub 项目失败:", error);
+          const container = document.querySelector('.section#projects .grid');
+          container.innerHTML = '<p class="card">无法加载 GitHub 作品，请稍后再试...</p>';
+        }
+      }
+
+      // 编程语言对应颜色（可根据需要扩展）
+      function getColorForLanguage(language) {
+        const colors = {
+          JavaScript: '#f1e05a',
+          Python: '#3572A5',
+          C: '#555555',
+          'C++': '#f34b7d', // 注意键名带空格时用引号
+          HTML: '#e34c26',
+          CSS: '#563d7c',
+          Java: '#b07219',
+          PHP: '#777bb4',
+          TypeScript: '#2b7489',
+          Shell: '#89e051',
+          Swift: '#ffac45',
+          Go: '#00ADD8',
+          Rust: '#dea584'
+        };
+        return colors[language] || '#666'; // 默认灰色
+      }
+
+      // 页面加载完成后执行 GitHub 项目加载
+      window.addEventListener('DOMContentLoaded', () => {
+        fetchGitHubProjects(); // 调用 GitHub 项目加载函数
+      });
+      // ===== GitHub 作品模块脚本结束 =====
+    })();
+  </script>
+</body>
+</html>
